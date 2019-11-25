@@ -1,0 +1,36 @@
+server:
+  port: 8079
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    fetchRegistry: true
+    registerWithEureka: true
+
+spring:
+  thymeleaf:
+    cache: false
+    
+# Zuul properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include: /health
+        
+zuul:
+  addProxyHeaders: false
+  ignoredServices: /health
+  routes:
+    customerms:
+      serviceId: customer-services
+      path: /customer-services/**
+    oauthms:
+      serviceId: authorization-server
+      path: /authorization-server/**
+
+#oauth2
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9000/user
